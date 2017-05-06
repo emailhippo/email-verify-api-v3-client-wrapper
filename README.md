@@ -7,7 +7,7 @@
 
 # Email Verification API Client (Version 3)
 
-[![email-hippo-public MyGet Build Status](https://www.myget.org/BuildSource/Badge/email-hippo-public?identifier=ae7e40ed-8019-43d7-aea2-557a93f80a22)](https://www.myget.org/)
+[![email-hippo-public MyGet Build Status](https://www.myget.org/BuildSource/Badge/email-hippo-public?identifier=faa3653f-0e7d-4730-95f8-a76a9ab0cb3f)](https://www.myget.org/)
 
 
 ## About
