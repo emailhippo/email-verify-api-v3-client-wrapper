@@ -108,7 +108,7 @@ var responses = myService.Process(new VerificationRequest{Emails = new List<stri
 
 __Example 4__ - checking more than one email address asynchronously
 ```c#
-var responses = myService.ProcessAsync(new VerificationRequest{Emails = new List<string>{"me@here.com","me2@here.com"}, ServiceType = ServiceType.More, CancellationToken.None}).Result;
+var responses = myService.ProcessAsync(new VerificationRequest{Emails = new List<string>{"me@here.com","me2@here.com"}, ServiceType = ServiceType.More}, CancellationToken.None).Result;
 
 /*Process responses*/
 /*..responses*/
