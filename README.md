@@ -17,7 +17,8 @@ further information on the RESTful server side implementation, please see the [D
 ## How to get the package
 From [Nuget](http://nuget.org).
 ```
-install-package EmailHippo.EmailVerify.Api.V3.Client
+Install-Package EmailHippo.EmailVerify.Api.V3.Client
+Install-Package System.Runtime.Serialization.Primitives
 ```
 
 ## Who is the package for?
