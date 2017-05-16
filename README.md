@@ -7,9 +7,6 @@
 
 # Email Verification API Client (Version 3)
 
-[![email-hippo-public MyGet Build Status](https://www.myget.org/BuildSource/Badge/email-hippo-public?identifier=faa3653f-0e7d-4730-95f8-a76a9ab0cb3f)](https://www.myget.org/)
-
-
 ## About
 This is a .NET package built for easy integration with [Email Hippo] RESTful (v3) API service editions known as 'Core' and 'More'. For
 further information on the RESTful server side implementation, please see the [Docs].
