@@ -77,7 +77,7 @@ This software must be initialized before use. Initializaton is only needed once 
 
 Supply license configuration to the software by providing the license key in code as part of initialization
 
-Invoke static method ApiClientFactoryV2.Initialize(string licenseKey = null)... as follows if supplying the license in code:
+Invoke static method ApiClientFactoryV3.Initialize(string licenseKey = null)... as follows if supplying the license in code:
 ```C#
 /*Visit https://www.emailhippo.com to get a license key*/
 ApiClientFactoryV3.Initialize("{your license key}", {Custom logger factory} [optional]);
