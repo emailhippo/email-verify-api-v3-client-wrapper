@@ -43,9 +43,11 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
             Contract.Requires(outHelper != null);
         }
 
+#if !RELEASE
         [Theory]
         [InlineData("abuse@hotmail.com")]
         [InlineData("abuse@yahoo.com")]
+#endif
         public void ProcessAsync_WhenValidEmail_ExpectValidResult(string email)
         {
             // Arrange

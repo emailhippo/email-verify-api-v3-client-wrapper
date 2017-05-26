@@ -82,7 +82,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
             }
         }
 
+#if !RELEASE
         [Fact]
+#endif
         public void CreateAndRunWork_ExpectNoErrors()
         {
             // arrange
@@ -105,7 +107,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
             service.ProgressChanged -= (o, args) => this.OutHelper.WriteLine(JsonConvert.SerializeObject(args));
         }
 
+#if !RELEASE
         [Fact]
+#endif
         public void CreateAndRunPerformanceTest_ExpectTimingsOutputOnly()
         {
             // arrange

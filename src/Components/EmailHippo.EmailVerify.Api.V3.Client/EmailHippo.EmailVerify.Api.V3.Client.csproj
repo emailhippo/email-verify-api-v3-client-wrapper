@@ -19,7 +19,7 @@ Find out more about enterprise grade email address validation and get a free tri
     <RepositoryUrl>https://github.com/emailhippo/email-verify-api-v3-client-wrapper</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Email Validation Verification API</PackageTags>
-    <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated to remove StyleCop.Analyzers.</PackageReleaseNotes>
     <NeutralLanguage />
   </PropertyGroup>
 
@@ -29,11 +29,13 @@ Find out more about enterprise grade email address validation and get a free tri
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EmailHippo.EmailVerify.Api.V3.Entities" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
+    <PackageReference Include="EmailHippo.EmailVerify.Api.V3.Entities" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-    <PackageReference Include="protobuf-net" Version="2.1.0" />
-    <PackageReference Include="stylecop.analyzers" Version="1.0.0" />
+    <PackageReference Include="protobuf-net" Version="2.2.0" />
+    <PackageReference Include="stylecop.analyzers" Version="1.0.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" />
