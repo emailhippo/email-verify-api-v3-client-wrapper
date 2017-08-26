@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Authors>Email Hippo Ltd</Authors>
@@ -19,7 +19,7 @@ Find out more about enterprise grade email address validation and get a free tri
     <RepositoryUrl>https://github.com/emailhippo/email-verify-api-v3-client-wrapper</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Email Validation Verification API</PackageTags>
-    <PackageReleaseNotes>Updated to remove StyleCop.Analyzers.</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated to .net Standard 2.0.</PackageReleaseNotes>
     <NeutralLanguage />
   </PropertyGroup>
 
@@ -29,18 +29,18 @@ Find out more about enterprise grade email address validation and get a free tri
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EmailHippo.EmailVerify.Api.V3.Entities" Version="1.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-    <PackageReference Include="protobuf-net" Version="2.2.0" />
-    <PackageReference Include="stylecop.analyzers" Version="1.0.0">
+    <PackageReference Include="EmailHippo.EmailVerify.Api.V3.Entities" Version="1.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="protobuf-net" Version="2.3.2" />
+    <PackageReference Include="stylecop.analyzers" Version="1.0.2">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
     <PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.7.0" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.8.0" />
   </ItemGroup>
 
 </Project>
