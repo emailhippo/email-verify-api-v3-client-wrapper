@@ -21,6 +21,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
     using System.Threading;
     using Entities.Service.V3;
     using JetBrains.Annotations;
+    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Xunit;
     using Xunit.Abstractions;
@@ -31,10 +32,15 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
     /// <seealso cref="TestBase" />
     public sealed class ApiClientFactoryV2Tests : TestBase
     {
+
+        private readonly ILogger logger;
+
         public ApiClientFactoryV2Tests([NotNull] ITestOutputHelper outHelper)
             : base(outHelper)
         {
             Contract.Requires(outHelper != null);
+
+            this.logger = LoggerFactory.CreateLogger<ApiClientFactoryV2Tests>();
 
             ApiClientFactoryV3.Initialize(LicenseKey, this.LoggerFactory);
         }
@@ -100,6 +106,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
 
             // assert
             Assert.True(verificationResponses != null);
+            this.logger.LogInformation(JsonConvert.SerializeObject(verificationResponses));
             this.OutHelper.WriteLine(
                 JsonConvert.SerializeObject(verificationResponses));
             this.WriteTimeElapsed(stopwatch.ElapsedMilliseconds);
@@ -125,6 +132,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
 
             // assert
             Assert.True(verificationResponses != null);
+            this.logger.LogInformation(JsonConvert.SerializeObject(verificationResponses));
             this.OutHelper.WriteLine(
                 JsonConvert.SerializeObject(verificationResponses));
             this.WriteTimeElapsed(stopwatch.ElapsedMilliseconds);

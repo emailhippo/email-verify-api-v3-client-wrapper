@@ -46,6 +46,12 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
         private const string ApiUrlFormat = @"https://api.hippoapi.com/v3/{0}/proto/{1}/{2}";
 
         /// <summary>
+        /// My client
+        /// </summary>
+        [NotNull]
+        private static readonly HttpClient MyClient = new HttpClient();
+
+        /// <summary>
         /// The logger
         /// </summary>
         [NotNull]
@@ -71,6 +77,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
 
             this.logger = loggerFactory.CreateLogger<DefaultClient>();
             this.authConfiguration = authConfiguration;
+
+            MyClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-protobuf"));
         }
 
         /// <inheritdoc />
@@ -108,7 +116,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
                     throw new NotImplementedException("service type = 'None' not implemented");
                 case ServiceType.Syntax:
                     throw new NotImplementedException("service type = 'Syntax' not implemented");
-                    case ServiceType.Core:
+                case ServiceType.Core:
                     requestUrl = string.Format(ApiUrlFormat, "blocklists", this.authConfiguration.Get.LicenseKey, request.Email);
                     break;
                 case ServiceType.More:
@@ -120,25 +128,20 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
 
             Result deserializeResult = null;
 
-            using (var client = new HttpClient())
+            var response = await MyClient.GetAsync(new Uri(requestUrl), cancellationToken).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
             {
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-protobuf"));
-
-                var response = await client.GetAsync(new Uri(requestUrl), cancellationToken).ConfigureAwait(false);
-
-                if (response.IsSuccessStatusCode)
+                using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                 {
-                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    try
                     {
-                        try
-                        {
-                            deserializeResult = Serializer.Deserialize<Result>(stream);
-                        }
-                        catch (Exception exception)
-                        {
-                            this.logger.LogError((int)EventIds.Error, exception, Messages.Error, "deserialization error");
-                            throw;
-                        }
+                        deserializeResult = Serializer.Deserialize<Result>(stream);
+                    }
+                    catch (Exception exception)
+                    {
+                        this.logger.LogError((int)EventIds.Error, exception, Messages.Error, "deserialization error");
+                        throw;
                     }
                 }
             }

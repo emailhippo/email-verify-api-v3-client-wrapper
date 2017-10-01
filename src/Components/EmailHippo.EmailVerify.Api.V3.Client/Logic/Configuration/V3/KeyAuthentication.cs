@@ -19,9 +19,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Configuration.V3
     /// <summary>
     /// Key authentication
     /// </summary>
-    /// <seealso cref="Interfaces.Configuration.IConfiguration{Entities.Configuration.V3.KeyAuthentication}" />
     public sealed class KeyAuthentication : IConfiguration<Entities.Configuration.V3.KeyAuthentication>
     {
+        /// <inheritdoc />
         public Entities.Configuration.V3.KeyAuthentication Get { get; set; }
     }
 }

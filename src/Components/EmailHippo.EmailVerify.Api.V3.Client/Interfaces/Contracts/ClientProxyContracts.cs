@@ -19,7 +19,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Contracts
     using System.Threading;
     using System.Threading.Tasks;
     using Clients;
-    using JetBrains.Annotations;
 
     /// <summary>
     /// Client Proxy Contracts
@@ -30,16 +29,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Contracts
     [ContractClassFor(typeof(IClientProxy<,>))]
     internal abstract class ClientProxyContracts<TRequest, TResponse> : IClientProxy<TRequest, TResponse>
     {
-        /// <summary>
-        /// The process.
-        /// </summary>
-        /// <param name="request">
-        /// The request.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TResponse"/>.
-        /// </returns>
-        [NotNull]
+        /// <inheritdoc />
         public virtual TResponse Process(TRequest request)
         {
             Contract.Requires(request != null);
@@ -47,21 +37,10 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Contracts
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// The process async.
-        /// </summary>
-        /// <param name="request">
-        /// The request.
-        /// </param>
-        /// <param name="cancellationToken">
-        /// The cancellation token.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
+        /// <inheritdoc />
         public virtual Task<TResponse> ProcessAsync(TRequest request, CancellationToken cancellationToken)
         {
-            return default(Task<TResponse>);
+            throw new NotImplementedException();
         }
     }
 }

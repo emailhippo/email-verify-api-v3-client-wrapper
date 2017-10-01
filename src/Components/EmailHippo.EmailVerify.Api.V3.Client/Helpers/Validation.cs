@@ -17,6 +17,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
 {
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// Validation helper
+    /// </summary>
     internal static class Validation
     {
         /// <summary>

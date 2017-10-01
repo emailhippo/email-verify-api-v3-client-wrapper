@@ -19,6 +19,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client
     using Entities.Configuration.V3;
     using Entities.Service.V3;
     using Interfaces.Service;
+    using JetBrains.Annotations;
     using Logic.Clients.EmailHippo.V3;
     using Microsoft.Extensions.Logging;
     using Services.EmailHippo.V3;
@@ -31,15 +32,21 @@ namespace EmailHippo.EmailVerify.Api.V3.Client
         /// <summary>
         ///     The default client lazy.
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
         private static readonly Lazy<DefaultClient> DefaultClientLazy =
             new Lazy<DefaultClient>(() => new DefaultClient(myLoggerFactory, KeyAuthenticationLazy.Value));
 
         /// <summary>
         ///     The default service lazy.
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
         private static readonly Lazy<DefaultService> DefaultServiceLazy =
             new Lazy<DefaultService>(() => new DefaultService(myLoggerFactory, DefaultClientLazy.Value));
 
+        [ItemNotNull]
+        [NotNull]
         private static readonly Lazy<Logic.Configuration.V3.KeyAuthentication> KeyAuthenticationLazy =
             new Lazy<Logic.Configuration.V3.KeyAuthentication>(
                 () =>
@@ -56,11 +63,13 @@ namespace EmailHippo.EmailVerify.Api.V3.Client
         /// <summary>
         ///     The app domain license key.
         /// </summary>
+        [NotNull]
         private static string appDomainLicenseKey;
 
         /// <summary>
         /// My logger factory
         /// </summary>
+        [NotNull]
         private static ILoggerFactory myLoggerFactory;
 
         /// <summary>
@@ -68,6 +77,12 @@ namespace EmailHippo.EmailVerify.Api.V3.Client
         /// </summary>
         private static long initialized;
 
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns>The service.</returns>
+        /// <exception cref="InvalidOperationException">License key not set. Call Initialize method first and either add key to appSettings, key='Hippo.EmailVerifyApiKey' or supply licenseKey parameter to Initialize(licenseKey) method.</exception>
+        [NotNull]
         public static IService<VerificationRequest, VerificationResponses, ProgressEventArgs> Create()
         {
             if (Interlocked.Read(ref initialized) < 1)
@@ -88,7 +103,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client
         /// <param name="licenseKey">License key.</param>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <exception cref="System.ArgumentNullException">licenseKey - License Key is required. Please visit www.emailhippo.com to get a free trial license.</exception>
-        public static void Initialize(string licenseKey, ILoggerFactory loggerFactory = null)
+        public static void Initialize([NotNull] string licenseKey, [CanBeNull] ILoggerFactory loggerFactory = null)
         {
             if (Interlocked.Read(ref initialized) > 0)
             {

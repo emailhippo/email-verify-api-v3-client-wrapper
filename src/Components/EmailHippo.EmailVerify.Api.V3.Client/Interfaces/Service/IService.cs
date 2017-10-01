@@ -19,6 +19,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Service
     using System.Threading;
     using System.Threading.Tasks;
     using Contracts;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// The Service interface.
@@ -43,7 +44,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Service
         /// <returns>
         /// The <see cref="TResponse"/>.
         /// </returns>
-        TResponse Process(TRequest request);
+        [CanBeNull]
+        TResponse Process([NotNull] TRequest request);
 
         /// <summary>
         /// Processes the asynchronous.
@@ -57,6 +59,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Service
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<TResponse> ProcessAsync(TRequest request, CancellationToken cancellationToken);
+        [NotNull]
+        [ItemCanBeNull]
+        Task<TResponse> ProcessAsync([NotNull] TRequest request, CancellationToken cancellationToken);
     }
 }

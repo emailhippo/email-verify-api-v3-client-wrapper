@@ -22,6 +22,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
     using Entities.Configuration.V3;
     using Interfaces.Configuration;
     using JetBrains.Annotations;
+    using Microsoft.Extensions.Logging;
     using Moq;
     using Newtonsoft.Json;
     using Tests;
@@ -34,6 +35,11 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
     public sealed class DefaultClientTests : TestBase
     {
         /// <summary>
+        /// The logger
+        /// </summary>
+        private ILogger logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DefaultClientTests"/> class.
         /// </summary>
         /// <param name="outHelper">The out helper.</param>
@@ -41,6 +47,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
             : base(outHelper)
         {
             Contract.Requires(outHelper != null);
+
+            this.logger = this.LoggerFactory.CreateLogger<DefaultClientTests>();
         }
 
 #if !RELEASE
@@ -64,12 +72,13 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
 
             // Assert
             Assert.True(result.Result != null);
+            this.logger.LogInformation("Result:{0}", JsonConvert.SerializeObject(result));
             this.OutHelper.WriteLine("Result:{0}", JsonConvert.SerializeObject(result));
-            this.OutHelper.WriteLine("");
-            this.OutHelper.WriteLine("");
+            this.OutHelper.WriteLine(string.Empty);
+            this.OutHelper.WriteLine(string.Empty);
             this.WriteTimeElapsed(stopwatch.ElapsedMilliseconds);
-            this.OutHelper.WriteLine("");
-            this.OutHelper.WriteLine("");
+            this.OutHelper.WriteLine(string.Empty);
+            this.OutHelper.WriteLine(string.Empty);
         }
     }
 }

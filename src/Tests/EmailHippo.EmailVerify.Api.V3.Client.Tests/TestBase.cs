@@ -16,6 +16,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests
 {
     using System;
     using System.Diagnostics.Contracts;
+    using System.IO;
+    using System.Threading;
     using JetBrains.Annotations;
     using Microsoft.Extensions.Logging;
     using Serilog;
@@ -29,7 +31,13 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests
         /// <summary>
         /// Logger factory
         /// </summary>
+        [NotNull]
         private static readonly ILoggerFactory MyLoggerFactory = new LoggerFactory();
+
+        /// <summary>
+        /// The initialized
+        /// </summary>
+        private static int initialized;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestBase"/> class.
@@ -39,17 +47,28 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests
         {
             Contract.Requires(outHelper != null);
 
+            this.OutHelper = outHelper;
+
+            if (Interlocked.CompareExchange(ref initialized, 1, 0) != 0)
+            {
+                return;
+            }
+
+            var tempPath = Path.GetTempPath();
+            var logTextFile = Path.Combine(tempPath, "Logs", @"EmailHippo-EmailVerify-Api-V3-Client-Tests-Tests-{Date}.txt");
+
             Log.Logger =
                 new LoggerConfiguration()
+                    .MinimumLevel.Debug()
                     .Enrich
                     .FromLogContext()
-                    .WriteTo.LiterateConsole()
+                    .WriteTo.Console()
+#if DEBUG
+                    .WriteTo.RollingFile(logTextFile, shared: false, flushToDiskInterval: TimeSpan.FromMilliseconds(500), buffered: true)
+#endif
                     .CreateLogger();
 
-            MyLoggerFactory
-                .AddSerilog();
-
-            this.OutHelper = outHelper;
+            MyLoggerFactory.AddSerilog();
         }
 
         /// <summary>
@@ -58,11 +77,13 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests
         /// <remarks>
         /// Set system environment variable 'HippoAPILicKey' to a working, current license key.
         /// </remarks>
+        [CanBeNull]
         protected static string LicenseKey => Environment.GetEnvironmentVariable("HippoAPILicKey");
 
         /// <summary>
         /// Gets the logger factory.
         /// </summary>
+        [NotNull]
         protected ILoggerFactory LoggerFactory => MyLoggerFactory;
 
         /// <summary>
@@ -71,6 +92,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests
         /// <value>
         /// The out helper.
         /// </value>
+        [NotNull]
         protected ITestOutputHelper OutHelper { get; }
 
         /// <summary>

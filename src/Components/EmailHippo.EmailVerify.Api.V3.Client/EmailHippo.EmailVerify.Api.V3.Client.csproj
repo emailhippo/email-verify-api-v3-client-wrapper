@@ -19,8 +19,16 @@ Find out more about enterprise grade email address validation and get a free tri
     <RepositoryUrl>https://github.com/emailhippo/email-verify-api-v3-client-wrapper</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Email Validation Verification API</PackageTags>
-    <PackageReleaseNotes>Updated to .net Standard 2.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>Performance improvements.</PackageReleaseNotes>
     <NeutralLanguage />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\EmailHippo.EmailVerify.Api.V3.Client.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\EmailHippo.EmailVerify.Api.V3.Client.xml</DocumentationFile>
   </PropertyGroup>
 
 

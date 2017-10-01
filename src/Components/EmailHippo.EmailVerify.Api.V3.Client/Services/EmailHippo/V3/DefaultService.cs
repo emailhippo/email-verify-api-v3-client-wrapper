@@ -71,9 +71,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
             this.logger = loggerFactory.CreateLogger<DefaultService>();
         }
 
-        /// <summary>
-        /// The progress changed.
-        /// </summary>
+        /// <inheritdoc />
         public event EventHandler<ProgressEventArgs> ProgressChanged;
 
         /// <inheritdoc />
@@ -177,8 +175,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         /// <param name="emails">The emails.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [ItemCanBeNull]
         internal async Task<VerificationResponses> ProcessLocalAsync(
-            [NotNull] IEnumerable<Tuple<ServiceType, string>> emails,
+            [NotNull][ItemCanBeNull] IEnumerable<Tuple<ServiceType, string>> emails,
             CancellationToken cancellationToken)
         {
             Contract.Requires(emails != null);
@@ -249,7 +248,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
 
             try
             {
-                await actionBlock.Completion;
+                await actionBlock.Completion.ConfigureAwait(false);
             }
             catch (AggregateException aggregateException)
             {

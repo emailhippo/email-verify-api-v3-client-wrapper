@@ -18,6 +18,10 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
     using System;
     using Api.V3.Entities.V_3_0_0;
 
+    /// <summary>
+    /// Progress event args.
+    /// </summary>
+    /// <seealso cref="System.EventArgs" />
     public sealed class ProgressEventArgs : EventArgs
     {
         /// <summary>
