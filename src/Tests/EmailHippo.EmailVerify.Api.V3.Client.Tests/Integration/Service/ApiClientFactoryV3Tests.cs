@@ -1,8 +1,8 @@
-﻿// <copyright file="ApiClientFactoryV2Tests.cs" company="Email Hippo Ltd">
-// (c) 2017, Email Hippo Ltd
+﻿// <copyright file="ApiClientFactoryV3Tests.cs" company="Email Hippo Ltd">
+// (c) 2018, Email Hippo Ltd
 // </copyright>
 
-// Copyright 2017 Email Hippo Ltd
+// Copyright 2018 Email Hippo Ltd
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,10 +26,10 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
     using Xunit.Abstractions;
 
     /// <summary>
-    /// Api Client Factory V2 Tests
+    /// Api Client Factory V3 Tests
     /// </summary>
     /// <seealso cref="TestBase" />
-    public sealed class ApiClientFactoryV2Tests : TestBase
+    public sealed class ApiClientFactoryV3Tests : TestBase
     {
         /// <summary>
         /// The logger
@@ -38,13 +38,13 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
         private readonly ILogger logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClientFactoryV2Tests"/> class.
+        /// Initializes a new instance of the <see cref="ApiClientFactoryV3Tests"/> class.
         /// </summary>
         /// <param name="outHelper">The out helper.</param>
-        public ApiClientFactoryV2Tests([NotNull] ITestOutputHelper outHelper)
+        public ApiClientFactoryV3Tests([NotNull] ITestOutputHelper outHelper)
             : base(outHelper)
         {
-            this.logger = this.LoggerFactory.CreateLogger<ApiClientFactoryV2Tests>();
+            this.logger = this.LoggerFactory.CreateLogger<ApiClientFactoryV3Tests>();
 
             ApiClientFactoryV3.Initialize(LicenseKey, this.LoggerFactory);
         }

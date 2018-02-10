@@ -1,4 +1,4 @@
-﻿// <copyright file="VerificationRequest.cs" company="Email Hippo Ltd">
+﻿// <copyright file="VerificationDataRequest.cs" company="Email Hippo Ltd">
 // (c) 2018, Email Hippo Ltd
 // </copyright>
 
@@ -12,16 +12,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3
+namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3_5
 {
-    using System.Collections.Generic;
     using JetBrains.Annotations;
 
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+
+    using ProtoBuf;
+
     /// <summary>
-    /// The verification request
+    /// The verification data request.
     /// </summary>
-    [System.Obsolete("Deprecated and may not be supported in future versions. Please use replacement type from V3_5 namespace.")]
-    public sealed class VerificationRequest
+    [ProtoContract]
+    public sealed class VerificationDataRequest
     {
         /// <summary>
         /// Gets or sets the <see cref="ServiceType"/> of the service.
@@ -30,18 +34,33 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3
         /// The <see cref="ServiceType"/> of the service.
         /// </value>
         /// <remarks>
-        /// Default: ServiceType.More
+        /// Default : ServiceType.More
         /// </remarks>
+        [JsonProperty(Order = 1)]
+        [JsonConverter(typeof(StringEnumConverter))]
+        [ProtoMember(1)]
         public ServiceType ServiceType { get; set; } = ServiceType.More;
 
         /// <summary>
-        /// Gets or sets the emails to verify.
+        /// Gets or sets the other data.
         /// </summary>
         /// <value>
-        /// The emails.
+        /// The other data.
         /// </value>
-        [ItemNotNull]
+        [JsonProperty(Order = 2)]
+        [ProtoMember(2)]
         [CanBeNull]
-        public IEnumerable<string> Emails { get; set; }
+        public string OtherData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address.
+        /// </summary>
+        /// <value>
+        /// The email address.
+        /// </value>
+        [JsonProperty(Order = 3)]
+        [ProtoMember(3)]
+        [NotNull]
+        public string EmailAddress { get; set; }
     }
 }

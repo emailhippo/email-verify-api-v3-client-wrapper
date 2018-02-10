@@ -12,12 +12,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3
+namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3_5
 {
     /// <summary>
     /// Service Type.
     /// </summary>
-    [System.Obsolete("Deprecated and may not be supported in future versions. Please use replacement type from V3_5 namespace.")]
     public enum ServiceType
     {
         /// <summary>
@@ -170,7 +169,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3
         /// </item>
         /// </list>
         /// </remarks>
-        Core,
+        BlockLists,
 
         /// <summary>
         /// <para>Syntax, DNS, spam blocklist, mailbox verification + full scoring.</para>

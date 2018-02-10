@@ -1,8 +1,8 @@
 ﻿// <copyright file="AssemblyInfo.cs" company="Email Hippo Ltd">
-// (c) 2017, Email Hippo Ltd
+// (c) 2018, Email Hippo Ltd
 // </copyright>
 
-// Copyright 2017 Email Hippo Ltd
+// Copyright 2018 Email Hippo Ltd
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at

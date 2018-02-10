@@ -12,22 +12,42 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Clients.V3
+namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Clients.V3_5
 {
     using JetBrains.Annotations;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+    using Service.V3_5;
 
     /// <summary>
     /// The verification response.
     /// </summary>
-    [System.Obsolete("Deprecated and may not be supported in future versions. Please use replacement type from V3_5 namespace.")]
     internal sealed class VerificationResponse
     {
+        /// <summary>
+        /// Gets or sets the service type.
+        /// </summary>
+        [JsonProperty(Order = 1)]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ServiceType ServiceType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the other data.
+        /// </summary>
+        /// <value>
+        /// The other data.
+        /// </value>
+        [JsonProperty(Order = 2)]
+        [CanBeNull]
+        public string OtherData { get; set; }
+
         /// <summary>
         /// Gets or sets the result.
         /// </summary>
         /// <value>
         /// The result.
         /// </value>
+        [JsonProperty(Order = 3)]
         [CanBeNull]
         public Api.V3.Entities.V_3_0_0.Result Result { get; set; }
     }

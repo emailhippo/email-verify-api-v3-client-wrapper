@@ -1,4 +1,4 @@
-﻿// <copyright file="VerificationResponse.cs" company="Email Hippo Ltd">
+﻿// <copyright file="VerificationRequest.cs" company="Email Hippo Ltd">
 // (c) 2018, Email Hippo Ltd
 // </copyright>
 
@@ -12,23 +12,28 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Clients.V3
+namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3_5
 {
+    using System.Collections.Generic;
     using JetBrains.Annotations;
 
+    using ProtoBuf;
+
     /// <summary>
-    /// The verification response.
+    /// The verification request
     /// </summary>
-    [System.Obsolete("Deprecated and may not be supported in future versions. Please use replacement type from V3_5 namespace.")]
-    internal sealed class VerificationResponse
+    [ProtoContract]
+    public sealed class VerificationRequest
     {
         /// <summary>
-        /// Gets or sets the result.
+        /// Gets or sets the verification data.
         /// </summary>
         /// <value>
-        /// The result.
+        /// The verification data.
         /// </value>
+        [ProtoMember(1)]
+        [ItemNotNull]
         [CanBeNull]
-        public Api.V3.Entities.V_3_0_0.Result Result { get; set; }
+        public IEnumerable<VerificationDataRequest> VerificationData { get; set; }
     }
 }

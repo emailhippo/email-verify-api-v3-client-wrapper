@@ -1,8 +1,8 @@
 ﻿// <copyright file="VerificationResponses.cs" company="Email Hippo Ltd">
-// (c) 2017, Email Hippo Ltd
+// (c) 2018, Email Hippo Ltd
 // </copyright>
 
-// Copyright 2017 Email Hippo Ltd
+// Copyright 2018 Email Hippo Ltd
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -20,6 +20,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3
     /// <summary>
     /// The verification responses.
     /// </summary>
+    [System.Obsolete("Deprecated and may not be supported in future versions. Please use replacement type from V3_5 namespace.")]
     public sealed class VerificationResponses
     {
         /// <summary>

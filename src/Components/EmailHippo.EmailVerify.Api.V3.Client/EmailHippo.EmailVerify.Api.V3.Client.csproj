@@ -12,15 +12,19 @@
 This package contains client service for real time email verification services.
 
 Find out more about enterprise grade email address validation and get a free trial license key at https://www.emailhippo.com</Description>
-    <Copyright>(c) 2017, Email Hippo Ltd</Copyright>
+    <Copyright>(c) 2018, Email Hippo Ltd</Copyright>
     <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/emailhippo/email-verify-api-v3-client-wrapper</PackageProjectUrl>
     <PackageIconUrl>https://s3.amazonaws.com/emailhippo/bizbranding/co.logos/eh1-128x128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/emailhippo/email-verify-api-v3-client-wrapper</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
+    <RepositoryType>Git</RepositoryType>
     <PackageTags>Email Validation Verification API</PackageTags>
-    <PackageReleaseNotes>Updated packages and tidied code contracts.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added v3.5 service interface.
+* aligned service type to our API service endpoint types.
+* new feature : syntax checking
+* pass associated data in request / response types</PackageReleaseNotes>
     <NeutralLanguage />
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -46,7 +50,6 @@ Find out more about enterprise grade email address validation and get a free tri
     </PackageReference>
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
-    <PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.8.0" />
   </ItemGroup>

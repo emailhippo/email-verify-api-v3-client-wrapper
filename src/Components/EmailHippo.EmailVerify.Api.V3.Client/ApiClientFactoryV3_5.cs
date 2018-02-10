@@ -1,4 +1,4 @@
-﻿// <copyright file="ApiClientFactoryV3.cs" company="Email Hippo Ltd">
+﻿// <copyright file="ApiClientFactoryV3_5.cs" company="Email Hippo Ltd">
 // (c) 2018, Email Hippo Ltd
 // </copyright>
 
@@ -17,18 +17,17 @@ namespace EmailHippo.EmailVerify.Api.V3.Client
     using System;
     using System.Threading;
     using Entities.Configuration.V3;
-    using Entities.Service.V3;
+    using Entities.Service.V3_5;
     using Interfaces.Service;
     using JetBrains.Annotations;
-    using Logic.Clients.EmailHippo.V3;
+    using Logic.Clients.EmailHippo.V3_5;
     using Microsoft.Extensions.Logging;
-    using Services.EmailHippo.V3;
+    using Services.EmailHippo.V3_5;
 
     /// <summary>
-    /// The API client factory for V3
+    /// The API client factory for V3.5
     /// </summary>
-    [Obsolete("Deprecated and may not be supported in future versions. Please use replacement ApiClientFactoryV3_5.")]
-    public static class ApiClientFactoryV3
+    public static class ApiClientFactoryV3_5
     {
         /// <summary>
         ///     The default client lazy.
@@ -51,12 +50,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client
                 () =>
                     new Logic.Configuration.V3.KeyAuthentication
                     {
-                        Get =
-                            new KeyAuthentication
-                            {
-                                LicenseKey =
-                                    appDomainLicenseKey
-                            }
+                        Get = new KeyAuthentication { LicenseKey = appDomainLicenseKey }
                     });
 
         /// <summary>
@@ -82,7 +76,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client
         /// <returns>The service.</returns>
         /// <exception cref="InvalidOperationException">License key not set. Call Initialize method first and either add key to appSettings, key='Hippo.EmailVerifyApiKey' or supply licenseKey parameter to Initialize(licenseKey) method.</exception>
         [NotNull]
-        public static IService<VerificationRequest, VerificationResponses, ProgressEventArgs> Create()
+        public static IService<VerificationRequest, VerificationResponses, Services.EmailHippo.V3.ProgressEventArgs> Create()
         {
             if (Interlocked.Read(ref initialized) < 1)
             {

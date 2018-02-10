@@ -12,7 +12,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
+namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3_5
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -21,9 +21,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
     using System.Threading.Tasks;
     using Api.V3.Entities.V_3_0_0;
     using Diagnostics.Common;
-    using Entities.Clients.V3;
+    using Entities.Clients.V3_5;
     using Entities.Configuration.V3;
-    using Entities.Service.V3;
+    using Entities.Service.V3_5;
     using Helpers;
     using Interfaces.Clients;
     using Interfaces.Configuration;
@@ -34,13 +34,17 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
     /// <summary>
     /// The default client. Uses protobuf endpoint for speed and efficiency.
     /// </summary>
-    [System.Obsolete("Deprecated and may not be supported in future versions. Please use replacement type from V3_5 namespace.")]
-    internal sealed class DefaultClient : IClientProxy<Entities.Clients.V3.VerificationRequest, VerificationResponse>
+    internal sealed class DefaultClient : IClientProxy<Entities.Clients.V3_5.VerificationRequest, VerificationResponse>
     {
         /// <summary>
         /// The API url.
         /// </summary>
         private const string ApiUrlFormat = @"https://api.hippoapi.com/v3/{0}/proto/{1}/{2}";
+
+        /// <summary>
+        /// The API URL format (syntax checking only)
+        /// </summary>
+        private const string ApiUrlFormatSyntaxOnly = @"https://api.hippoapi.com/v3/{0}/proto/{1}";
 
         /// <summary>
         /// The logger
@@ -68,13 +72,13 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
         }
 
         /// <inheritdoc />
-        public VerificationResponse Process(Entities.Clients.V3.VerificationRequest request)
+        public VerificationResponse Process(Entities.Clients.V3_5.VerificationRequest request)
         {
             return this.ProcessAsync(request, CancellationToken.None).Result;
         }
 
         /// <inheritdoc />
-        public async Task<VerificationResponse> ProcessAsync(Entities.Clients.V3.VerificationRequest request, CancellationToken cancellationToken)
+        public async Task<VerificationResponse> ProcessAsync(Entities.Clients.V3_5.VerificationRequest request, CancellationToken cancellationToken)
         {
             if (this.logger.IsEnabled(LogLevel.Information))
             {
@@ -101,8 +105,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
                 case ServiceType.None:
                     throw new NotImplementedException("service type = 'None' not implemented");
                 case ServiceType.Syntax:
-                    throw new NotImplementedException("service type = 'Syntax' not implemented");
-                case ServiceType.Core:
+                    requestUrl = string.Format(ApiUrlFormatSyntaxOnly, "basic", request.Email);
+                    break;
+                case ServiceType.BlockLists:
                     requestUrl = string.Format(ApiUrlFormat, "blocklists", this.authConfiguration.Get.LicenseKey, request.Email);
                     break;
                 case ServiceType.More:
@@ -132,7 +137,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
                 }
             }
 
-            var responseResult = new VerificationResponse { Result = deserializeResult };
+            var responseResult = new VerificationResponse { Result = deserializeResult, ServiceType = request.ServiceType, OtherData = request.OtherData };
 
             stopwatch.Stop();
 

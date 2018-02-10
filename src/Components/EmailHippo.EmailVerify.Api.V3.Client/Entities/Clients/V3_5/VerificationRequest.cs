@@ -12,26 +12,43 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Clients.V3
+namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Clients.V3_5
 {
     using System.ComponentModel.DataAnnotations;
     using JetBrains.Annotations;
-    using Service.V3;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+    using Service.V3_5;
 
     /// <summary>
     /// The verification request
     /// </summary>
-    [System.Obsolete("Deprecated and may not be supported in future versions. Please use replacement type from V3_5 namespace.")]
     internal sealed class VerificationRequest
     {
         /// <summary>
         /// Gets or sets the service type.
         /// </summary>
+        /// <remarks>
+        /// Default : ServiceType.More
+        /// </remarks>
+        [JsonProperty(Order = 1)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public ServiceType ServiceType { get; set; } = ServiceType.More;
+
+        /// <summary>
+        /// Gets or sets the other data.
+        /// </summary>
+        /// <value>
+        /// The other data.
+        /// </value>
+        [JsonProperty(Order = 2)]
+        [CanBeNull]
+        public string OtherData { get; set; }
 
         /// <summary>
         /// Gets or sets the emails.
         /// </summary>
+        [JsonProperty(Order = 3)]
         [MaxLength(255)]
         [EmailAddress]
         [Required]

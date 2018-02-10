@@ -1,4 +1,4 @@
-﻿// <copyright file="DefaultClientTests.cs" company="Email Hippo Ltd">
+﻿// <copyright file="DefaultClientTestsV3_5.cs" company="Email Hippo Ltd">
 // (c) 2018, Email Hippo Ltd
 // </copyright>
 
@@ -12,13 +12,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.EmailHippo.V3
+namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.EmailHippo.V3_5
 {
     using System.Diagnostics;
     using System.Threading;
-    using Client.Logic.Clients.EmailHippo.V3;
-    using Entities.Clients.V3;
+    using System.Threading.Tasks;
+    using Client.Logic.Clients.EmailHippo.V3_5;
     using Entities.Configuration.V3;
+    using Entities.Service.V3_5;
     using Interfaces.Configuration;
     using JetBrains.Annotations;
     using Microsoft.Extensions.Logging;
@@ -31,7 +32,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
     /// <summary>
     /// Default Client Tests
     /// </summary>
-    public sealed class DefaultClientTests : TestBase
+    public sealed class DefaultClientTestsV3_5 : TestBase
     {
         /// <summary>
         /// The logger
@@ -40,13 +41,13 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
         private readonly ILogger logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultClientTests"/> class.
+        /// Initializes a new instance of the <see cref="DefaultClientTestsV3_5"/> class.
         /// </summary>
         /// <param name="outHelper">The out helper.</param>
-        public DefaultClientTests([NotNull] ITestOutputHelper outHelper)
+        public DefaultClientTestsV3_5([NotNull] ITestOutputHelper outHelper)
             : base(outHelper)
         {
-            this.logger = this.LoggerFactory.CreateLogger<DefaultClientTests>();
+            this.logger = this.LoggerFactory.CreateLogger<DefaultClientTestsV3_5>();
         }
 
 #if !RELEASE
@@ -54,11 +55,15 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
         /// Processes the asynchronous when valid email expect valid result.
         /// </summary>
         /// <param name="email">The email.</param>
+        /// <param name="otherData">The other data.</param>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Theory]
-        [InlineData("abuse@hotmail.com")]
-        [InlineData("abuse@yahoo.com")]
+        [InlineData("abuse@hotmail.com", "some other data", ServiceType.More)]
+        [InlineData("abuse@yahoo.com", "some other data 2", ServiceType.More)]
+        [InlineData("syntax@syntax.com", "some other data 2", ServiceType.Syntax)]
 #endif
-        public void ProcessAsync_WhenValidEmail_ExpectValidResult([NotNull] string email)
+        public async Task ProcessAsync_WhenValidEmail_ExpectValidResult([NotNull] string email, [CanBeNull] string otherData, ServiceType serviceType)
         {
             // Arrange
             var mockConfig = new Mock<IConfiguration<KeyAuthentication>>();
@@ -69,7 +74,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
 
             // Act
             var stopwatch = Stopwatch.StartNew();
-            var result = defaultClient.ProcessAsync(new VerificationRequest { Email = email }, CancellationToken.None).Result;
+            var result = await defaultClient.ProcessAsync(new Entities.Clients.V3_5.VerificationRequest { Email = email, OtherData = otherData, ServiceType = serviceType }, CancellationToken.None).ConfigureAwait(false);
             stopwatch.Stop();
 
             // Assert

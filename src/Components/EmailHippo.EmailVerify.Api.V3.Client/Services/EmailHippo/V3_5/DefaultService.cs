@@ -12,7 +12,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
+namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3_5
 {
     using System;
     using System.Collections.Generic;
@@ -24,29 +24,27 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
     using System.Threading;
     using System.Threading.Tasks;
     using System.Threading.Tasks.Dataflow;
-    using Api.V3.Entities.V_3_0_0;
     using Diagnostics.Common;
-    using Entities.Clients.V3;
-    using Entities.Service.V3;
+    using Entities.Clients.V3_5;
+    using Entities.Service.V3_5;
     using Helpers;
     using Interfaces.Clients;
     using Interfaces.Service;
     using JetBrains.Annotations;
     using Microsoft.Extensions.Logging;
-    using VerificationRequest = Entities.Service.V3.VerificationRequest;
+    using VerificationRequest = Entities.Service.V3_5.VerificationRequest;
 
     /// <summary>
     /// Default Service.
     /// </summary>
-    /// <seealso cref="ProgressEventArgs" />
-    [Obsolete("Deprecated and may not be supported in future versions. Please use replacement type from V3_5 namespace.")]
-    internal sealed class DefaultService : IService<VerificationRequest, VerificationResponses, ProgressEventArgs>
+    /// <seealso cref="V3.ProgressEventArgs" />
+    internal sealed class DefaultService : IService<VerificationRequest, VerificationResponses, V3.ProgressEventArgs>
     {
         /// <summary>
         /// The client proxy
         /// </summary>
         [NotNull]
-        private readonly IClientProxy<Entities.Clients.V3.VerificationRequest, VerificationResponse> clientProxy;
+        private readonly IClientProxy<Entities.Clients.V3_5.VerificationRequest, VerificationResponse> clientProxy;
 
         /// <summary>
         /// The logger
@@ -61,7 +59,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         /// <param name="clientProxy">The client proxy.</param>
         public DefaultService(
             [NotNull] ILoggerFactory loggerFactory,
-            [NotNull] IClientProxy<Entities.Clients.V3.VerificationRequest, VerificationResponse> clientProxy)
+            [NotNull] IClientProxy<Entities.Clients.V3_5.VerificationRequest, VerificationResponse> clientProxy)
         {
             this.clientProxy = clientProxy;
 
@@ -69,7 +67,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         }
 
         /// <inheritdoc />
-        public event EventHandler<ProgressEventArgs> ProgressChanged;
+        public event EventHandler<V3.ProgressEventArgs> ProgressChanged;
 
         /// <inheritdoc />
         public VerificationResponses Process(VerificationRequest request)
@@ -99,13 +97,21 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
 
             VerificationResponses processLocalAsync = null;
 
-            var tuples = request.Emails.Select(item => new Tuple<ServiceType, string>(request.ServiceType, item)).ToList();
+            List<VerificationDataRequest> verificationDataRequests = request.VerificationData.ToSafeEnumerable().ToList();
+
+            var verificationRequests = verificationDataRequests.Select(r =>
+                new Entities.Clients.V3_5.VerificationRequest
+                {
+                    Email = r.EmailAddress,
+                    ServiceType = r.ServiceType,
+                    OtherData = r.OtherData
+                }).ToList();
 
             try
             {
                 processLocalAsync =
                     await
-                        this.ProcessLocalAsync(tuples, cancellationToken)
+                        this.ProcessLocalAsync(verificationRequests, cancellationToken)
                             .ConfigureAwait(false);
             }
             catch (AggregateException aggregateException)
@@ -169,22 +175,22 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         /// <summary>
         /// Processes the local asynchronous.
         /// </summary>
-        /// <param name="emails">The emails.</param>
+        /// <param name="data">The data.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [ItemCanBeNull]
         private async Task<VerificationResponses> ProcessLocalAsync(
-            [NotNull][ItemCanBeNull] IEnumerable<Tuple<ServiceType, string>> emails,
+            [NotNull][ItemNotNull] IEnumerable<Entities.Clients.V3_5.VerificationRequest> data,
             CancellationToken cancellationToken)
         {
             var responses = new List<VerificationResponse>();
 
-            var enumerable = emails as IList<Tuple<ServiceType, string>> ?? emails.ToList();
+            var enumerable = data as IList<Entities.Clients.V3_5.VerificationRequest> ?? data.ToList();
 
             var totalCount = enumerable.Count;
 
             /*Consumer*/
-            var actionBlock = new ActionBlock<Tuple<ServiceType, string>>(
+            var actionBlock = new ActionBlock<Entities.Clients.V3_5.VerificationRequest>(
                 async item =>
                 {
                     var currentIndexCounter = 0;
@@ -194,7 +200,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
                     try
                     {
                         verificationResponse = await this.clientProxy.ProcessAsync(
-                            new Entities.Clients.V3.VerificationRequest { ServiceType = item.Item1, Email = item.Item2 },
+                            new Entities.Clients.V3_5.VerificationRequest { ServiceType = item.ServiceType, Email = item.Email, OtherData = item.OtherData },
                             cancellationToken).ConfigureAwait(false);
                     }
                     catch (AggregateException aggregateException)
@@ -216,6 +222,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
                         var response = new VerificationResponse
                         {
                             Result = verificationResponse.Result,
+                            ServiceType = item.ServiceType,
+                            OtherData = item.OtherData
                         };
 
                         responses.Add(response);
@@ -224,10 +232,11 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
                         /*Progress calculations are meaningless for parallel processing therefore set to zero. In parallel mode, event will still return response*/
                         var i = CalculatePercentageProgress(currentIndexCounter, totalCount);
 
-                        this.OnProgressChanged(new ProgressEventArgs(totalCount, i, response.Result));
+                        this.OnProgressChanged(new V3.ProgressEventArgs(totalCount, i, response.Result));
                     }
                     else
                     {
+                        responses.Add(new VerificationResponse { OtherData = item.OtherData, ServiceType = item.ServiceType });
                         this.logger.LogWarning((int)EventIds.Warning, "DefaultService.ProcessLocalAsync verificationResponse is null!");
                     }
                 },
@@ -255,14 +264,21 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
                     });
             }
 
-            return new VerificationResponses { Results = new ReadOnlyCollection<Result>(responses.Select(r => r.Result).ToList()) };
+            var verificationDataResponses = new List<VerificationDataResponse>();
+
+            foreach (var verificationResponse in responses)
+            {
+                verificationDataResponses.Add(new VerificationDataResponse { OtherData = verificationResponse.OtherData, Result = verificationResponse.Result, ServiceType = verificationResponse.ServiceType });
+            }
+
+            return new VerificationResponses { Results = new ReadOnlyCollection<VerificationDataResponse>(verificationDataResponses) };
         }
 
         /// <summary>
         /// Raises the <see cref="E:ProgressChanged" /> event.
         /// </summary>
-        /// <param name="e">The <see cref="ProgressEventArgs"/> instance containing the event data.</param>
-        private void OnProgressChanged(ProgressEventArgs e)
+        /// <param name="e">The <see cref="V3.ProgressEventArgs" /> instance containing the event data.</param>
+        private void OnProgressChanged(V3.ProgressEventArgs e)
         {
             var handler = this.ProgressChanged;
             handler?.Invoke(this, e);
