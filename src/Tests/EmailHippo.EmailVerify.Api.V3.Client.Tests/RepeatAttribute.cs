@@ -18,25 +18,45 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using JetBrains.Annotations;
     using Xunit.Sdk;
 
+    /// <summary>
+    /// Repeat attribute
+    /// </summary>
+    /// <seealso cref="Xunit.Sdk.DataAttribute" />
     public class RepeatAttribute : DataAttribute
     {
-        private readonly int _count;
+        private readonly int count;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RepeatAttribute"/> class.
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <exception cref="ArgumentOutOfRangeException">count - Repeat count must be greater than 0.</exception>
         public RepeatAttribute(int count)
         {
             if (count < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(count),
-                    "Repeat count must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(count), "Repeat count must be greater than 0.");
             }
-            _count = count;
+
+            this.count = count;
         }
 
-        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+        /// <summary>
+        /// Returns the data to be used to test the theory.
+        /// </summary>
+        /// <param name="testMethod">The method that is being tested</param>
+        /// <returns>
+        /// One or more sets of theory data. Each invocation of the test method
+        /// is represented by a single object array.
+        /// </returns>
+        [ItemNotNull]
+        [CanBeNull]
+        public override IEnumerable<object[]> GetData([NotNull] MethodInfo testMethod)
         {
-            return Enumerable.Repeat(new object[0], _count);
+            return Enumerable.Repeat(new object[0], this.count);
         }
     }
 }

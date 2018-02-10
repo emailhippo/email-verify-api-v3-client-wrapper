@@ -12,7 +12,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Configuration
 {
     using JetBrains.Annotations;
@@ -26,7 +25,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Configuration
     public interface IConfiguration<out T>
     {
         /// <summary>
-        /// Gets or sets the get.
+        /// Gets the configuration.
         /// </summary>
         /// <value>
         /// The get.

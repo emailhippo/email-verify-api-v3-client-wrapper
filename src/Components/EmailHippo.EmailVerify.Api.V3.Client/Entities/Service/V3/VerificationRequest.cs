@@ -15,6 +15,7 @@
 namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3
 {
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// The verification request
@@ -38,6 +39,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3
         /// <value>
         /// The emails.
         /// </value>
+        [ItemNotNull]
+        [CanBeNull]
         public IEnumerable<string> Emails { get; set; }
     }
 }

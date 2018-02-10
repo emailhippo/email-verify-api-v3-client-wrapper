@@ -15,6 +15,7 @@
 namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3
 {
     using System.Collections.ObjectModel;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// The verification responses.
@@ -27,6 +28,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Service.V3
         /// <value>
         /// The results.
         /// </value>
+        [ItemNotNull]
+        [CanBeNull]
         public ReadOnlyCollection<Api.V3.Entities.V_3_0_0.Result> Results { get; set; }
     }
 }

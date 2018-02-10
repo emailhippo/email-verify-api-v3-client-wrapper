@@ -14,6 +14,8 @@
 // limitations under the License.
 namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Configuration.V3
 {
+    using JetBrains.Annotations;
+
     /// <summary>
     /// Key Authentication Config.
     /// </summary>
@@ -25,6 +27,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Configuration.V3
         /// <value>
         /// The license key.
         /// </value>
+        [NotNull]
         public string LicenseKey { get; set; }
     }
 }

@@ -15,6 +15,7 @@
 namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Clients.V3
 {
     using System.ComponentModel.DataAnnotations;
+    using JetBrains.Annotations;
     using Service.V3;
 
     /// <summary>
@@ -33,6 +34,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Clients.V3
         [MaxLength(255)]
         [EmailAddress]
         [Required]
+        [CanBeNull]
         public string Email { get; set; }
     }
 }

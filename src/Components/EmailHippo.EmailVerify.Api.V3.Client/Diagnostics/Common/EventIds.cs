@@ -17,7 +17,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Diagnostics.Common
     /// <summary>
     /// The event IDs
     /// </summary>
-    public enum EventIds
+    internal enum EventIds
     {
         /// <summary>
         ///     The none.

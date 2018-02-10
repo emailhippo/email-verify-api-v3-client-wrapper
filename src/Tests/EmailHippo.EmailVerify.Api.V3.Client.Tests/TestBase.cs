@@ -15,7 +15,6 @@
 namespace EmailHippo.EmailVerify.Api.V3.Client.Tests
 {
     using System;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Threading;
     using JetBrains.Annotations;
@@ -45,8 +44,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests
         /// <param name="outHelper">The out helper.</param>
         protected TestBase([NotNull] ITestOutputHelper outHelper)
         {
-            Contract.Requires(outHelper != null);
-
             this.OutHelper = outHelper;
 
             if (Interlocked.CompareExchange(ref initialized, 1, 0) != 0)

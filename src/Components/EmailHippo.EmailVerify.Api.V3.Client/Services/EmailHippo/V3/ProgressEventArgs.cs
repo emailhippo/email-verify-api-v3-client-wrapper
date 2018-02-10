@@ -1,8 +1,7 @@
-﻿
-
-// <copyright file="ProgressEventArgs.cs" company="Email Hippo Ltd">
+﻿// <copyright file="ProgressEventArgs.cs" company="Email Hippo Ltd">
 // (c) 2017, Email Hippo Ltd
 // </copyright>
+
 // Copyright 2017 Email Hippo Ltd
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
 {
     using System;
     using Api.V3.Entities.V_3_0_0;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Progress event args.
@@ -39,7 +39,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         public ProgressEventArgs(
             int totalCountInList,
             int percentageDone,
-            Result currentVerificationResponse)
+            [NotNull] Result currentVerificationResponse)
         {
             this.TotalCountInList = totalCountInList;
             this.PercentageDone = percentageDone;
@@ -52,7 +52,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         /// <value>
         ///     The current verification response.
         /// </value>
-        public Result CurrentVerificationResponse { get; private set; }
+        [NotNull]
+        public Result CurrentVerificationResponse { get; }
 
         /// <summary>
         ///     Gets the percentage done.
@@ -60,7 +61,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         /// <value>
         ///     The percentage done.
         /// </value>
-        public int PercentageDone { get; private set; }
+        public int PercentageDone { get; }
 
         /// <summary>
         ///     Gets the total count in list.
@@ -68,6 +69,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         /// <value>
         ///     The total count in list.
         /// </value>
-        public int TotalCountInList { get; private set; }
+        public int TotalCountInList { get; }
     }
 }

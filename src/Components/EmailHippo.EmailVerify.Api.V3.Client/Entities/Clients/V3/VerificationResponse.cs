@@ -14,6 +14,8 @@
 // limitations under the License.
 namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Clients.V3
 {
+    using JetBrains.Annotations;
+
     /// <summary>
     /// The verification response.
     /// </summary>
@@ -25,6 +27,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Entities.Clients.V3
         /// <value>
         /// The result.
         /// </value>
+        [CanBeNull]
         public Api.V3.Entities.V_3_0_0.Result Result { get; set; }
     }
 }

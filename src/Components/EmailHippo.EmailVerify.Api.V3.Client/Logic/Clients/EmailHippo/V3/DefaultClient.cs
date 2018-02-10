@@ -17,8 +17,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Diagnostics.Contracts;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading;
@@ -72,9 +70,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
             [NotNull] ILoggerFactory loggerFactory,
             [NotNull] IConfiguration<KeyAuthentication> authConfiguration)
         {
-            Contract.Requires(loggerFactory != null);
-            Contract.Requires(authConfiguration != null);
-
             this.logger = loggerFactory.CreateLogger<DefaultClient>();
             this.authConfiguration = authConfiguration;
 
@@ -159,15 +154,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Logic.Clients.EmailHippo.V3
             this.logger.LogInformation((int)EventIds.MethodEnter, Messages.MethodExit, @"ProcessAsync");
 
             return responseResult;
-        }
-
-        [ContractInvariantMethod]
-        [SuppressMessage("Microsoft.Performance", "CA1822: MarkMembersAsStatic", Justification = "Required for code contracts.")]
-        [Conditional("CONTRACTS_FULL")]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(logger != null);
-            Contract.Invariant(authConfiguration != null);
         }
     }
 }

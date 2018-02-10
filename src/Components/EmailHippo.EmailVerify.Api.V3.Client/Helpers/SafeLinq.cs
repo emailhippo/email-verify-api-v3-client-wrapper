@@ -17,6 +17,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Safe LINQ.
@@ -35,7 +36,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public static bool AnySafe<T>(this IEnumerable<T> source)
+        public static bool AnySafe<T>([ItemNotNull][CanBeNull] this IEnumerable<T> source)
         {
             return source != null && source.Any();
         }
@@ -55,7 +56,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public static bool AnySafe<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        public static bool AnySafe<T>([ItemNotNull][CanBeNull] this IEnumerable<T> enumerable, [NotNull] Func<T, bool> predicate)
             where T : class
         {
             return enumerable != null && enumerable.Any(predicate);
@@ -73,7 +74,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
         /// <returns>
         /// The <see cref="int"/>.
         /// </returns>
-        public static int CountSafe<T>(this IEnumerable<T> source)
+        public static int CountSafe<T>([ItemNotNull][CanBeNull] this IEnumerable<T> source)
         {
             return source?.Count() ?? 0;
         }
@@ -93,7 +94,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
         /// <returns>
         /// The <see cref="int"/>.
         /// </returns>
-        public static int CountSafe<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        public static int CountSafe<T>([ItemNotNull][CanBeNull] this IEnumerable<T> enumerable, [NotNull] Func<T, bool> predicate)
             where T : class
         {
             return enumerable?.Count(predicate) ?? 0;
@@ -111,7 +112,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        public static IEnumerable<T> ToSafeEnumerable<T>(this IEnumerable<T> source)
+        [ItemNotNull]
+        [CanBeNull]
+        public static IEnumerable<T> ToSafeEnumerable<T>([ItemNotNull][CanBeNull] this IEnumerable<T> source)
         {
             return source ?? Enumerable.Empty<T>();
         }
@@ -128,7 +131,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
         /// <returns>
         /// The <see cref="IList{T}"/>.
         /// </returns>
-        public static IList<T> ToSafeList<T>(this IList<T> source)
+        [ItemNotNull]
+        [CanBeNull]
+        public static IList<T> ToSafeList<T>([CanBeNull][ItemNotNull] this IList<T> source)
         {
             return source ?? Enumerable.Empty<T>().ToList();
         }

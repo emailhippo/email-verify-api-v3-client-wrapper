@@ -12,10 +12,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
 {
     using System.ComponentModel.DataAnnotations;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Validation helper
@@ -31,7 +31,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Helpers
         /// <typeparam name="T">
         /// Type of object to validate.
         /// </typeparam>
-        public static void Validate<T>(this T item)
+        public static void Validate<T>([CanBeNull] this T item)
             where T : class
         {
             if (item == null)

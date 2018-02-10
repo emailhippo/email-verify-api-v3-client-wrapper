@@ -19,7 +19,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
     using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.Linq;
     using System.Threading;
@@ -63,9 +62,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
             [NotNull] ILoggerFactory loggerFactory,
             [NotNull] IClientProxy<Entities.Clients.V3.VerificationRequest, VerificationResponse> clientProxy)
         {
-            Contract.Requires(loggerFactory != null);
-            Contract.Requires(clientProxy != null);
-
             this.clientProxy = clientProxy;
 
             this.logger = loggerFactory.CreateLogger<DefaultService>();
@@ -147,7 +143,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         /// <param name="currentCountDone">The current count done.</param>
         /// <param name="myTotalCount">My total count.</param>
         /// <returns>Percentage progress.</returns>
-        internal static int CalculatePercentageProgress(int currentCountDone, int myTotalCount)
+        private static int CalculatePercentageProgress(int currentCountDone, int myTotalCount)
         {
             if (myTotalCount == 0
                 || currentCountDone == 0)
@@ -176,12 +172,10 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Services.EmailHippo.V3
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [ItemCanBeNull]
-        internal async Task<VerificationResponses> ProcessLocalAsync(
+        private async Task<VerificationResponses> ProcessLocalAsync(
             [NotNull][ItemCanBeNull] IEnumerable<Tuple<ServiceType, string>> emails,
             CancellationToken cancellationToken)
         {
-            Contract.Requires(emails != null);
-
             var responses = new List<VerificationResponse>();
 
             var enumerable = emails as IList<Tuple<ServiceType, string>> ?? emails.ToList();

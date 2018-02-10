@@ -12,13 +12,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Clients
 {
-    using System.Diagnostics.Contracts;
     using System.Threading;
     using System.Threading.Tasks;
-    using Contracts;
     using JetBrains.Annotations;
 
     /// <summary>
@@ -26,7 +23,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Clients
     /// </summary>
     /// <typeparam name="TRequest">The type of the request.</typeparam>
     /// <typeparam name="TResponse">The type of the response.</typeparam>
-    [ContractClass(typeof(ClientProxyContracts<,>))]
     internal interface IClientProxy<in TRequest, TResponse>
     {
         /// <summary>
@@ -36,7 +32,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Clients
         /// The request.
         /// </param>
         /// <returns>
-        /// The <see cref="TResponse"/>.
+        /// The Response.
         /// </returns>
         [NotNull]
         TResponse Process([NotNull] TRequest request);

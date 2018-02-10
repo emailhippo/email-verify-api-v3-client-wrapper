@@ -16,7 +16,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Threading;
     using Entities.Service.V3;
@@ -32,19 +31,26 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
     /// <seealso cref="TestBase" />
     public sealed class ApiClientFactoryV2Tests : TestBase
     {
-
+        /// <summary>
+        /// The logger
+        /// </summary>
+        [NotNull]
         private readonly ILogger logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClientFactoryV2Tests"/> class.
+        /// </summary>
+        /// <param name="outHelper">The out helper.</param>
         public ApiClientFactoryV2Tests([NotNull] ITestOutputHelper outHelper)
             : base(outHelper)
         {
-            Contract.Requires(outHelper != null);
-
-            this.logger = LoggerFactory.CreateLogger<ApiClientFactoryV2Tests>();
+            this.logger = this.LoggerFactory.CreateLogger<ApiClientFactoryV2Tests>();
 
             ApiClientFactoryV3.Initialize(LicenseKey, this.LoggerFactory);
         }
 
+        [ItemNotNull]
+        [NotNull]
         private static IEnumerable<string> TestList1 => new List<string>
         {
             "abuse@hotmail.com",
@@ -64,22 +70,21 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
         /// The performance test list1.
         /// </value>
         [NotNull]
+        [ItemNotNull]
         private static IEnumerable<string> PerformanceTestList1
         {
             get
             {
-                Contract.Ensures(Contract.Result<List<string>>() != null);
-
-                const int ReturnedItems = 10;
-                const string DomainToTest = @"gmail.com";
+                const int returnedItems = 10;
+                const string domainToTest = @"gmail.com";
 
                 var rtn = new List<string>();
 
-                for (int i = 0; i < ReturnedItems; i++)
+                for (int i = 0; i < returnedItems; i++)
                 {
                     var randomFileName = Path.GetRandomFileName();
 
-                    var concat = string.Concat(randomFileName, "@", DomainToTest);
+                    var concat = string.Concat(randomFileName, "@", domainToTest);
 
                     rtn.Add(concat);
                 }
@@ -89,6 +94,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
         }
 
 #if !RELEASE
+        /// <summary>
+        /// Creates the and run work expect no errors.
+        /// </summary>
         [Fact]
 #endif
         public void CreateAndRunWork_ExpectNoErrors()
@@ -115,6 +123,9 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Service
         }
 
 #if !RELEASE
+        /// <summary>
+        /// Creates the and run performance test expect timings output only.
+        /// </summary>
         [Fact]
 #endif
         public void CreateAndRunPerformanceTest_ExpectTimingsOutputOnly()

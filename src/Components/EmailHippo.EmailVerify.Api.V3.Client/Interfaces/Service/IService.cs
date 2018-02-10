@@ -15,10 +15,8 @@
 namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Service
 {
     using System;
-    using System.Diagnostics.Contracts;
     using System.Threading;
     using System.Threading.Tasks;
-    using Contracts;
     using JetBrains.Annotations;
 
     /// <summary>
@@ -27,7 +25,6 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Service
     /// <typeparam name="TRequest">Type of request.</typeparam>
     /// <typeparam name="TResponse">Type of response.</typeparam>
     /// <typeparam name="TProgressReporting">The type of the progress reporting.</typeparam>
-    [ContractClass(typeof(ServiceContracts<,,>))]
     public interface IService<in TRequest, TResponse, TProgressReporting>
     {
         /// <summary>
@@ -42,7 +39,7 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Interfaces.Service
         /// The request.
         /// </param>
         /// <returns>
-        /// The <see cref="TResponse"/>.
+        /// The response.
         /// </returns>
         [CanBeNull]
         TResponse Process([NotNull] TRequest request);

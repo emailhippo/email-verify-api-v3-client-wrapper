@@ -15,7 +15,6 @@
 namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.EmailHippo.V3
 {
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
     using System.Threading;
     using Client.Logic.Clients.EmailHippo.V3;
     using Entities.Clients.V3;
@@ -37,7 +36,8 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
         /// <summary>
         /// The logger
         /// </summary>
-        private ILogger logger;
+        [NotNull]
+        private readonly ILogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultClientTests"/> class.
@@ -46,17 +46,19 @@ namespace EmailHippo.EmailVerify.Api.V3.Client.Tests.Integration.Logic.Clients.E
         public DefaultClientTests([NotNull] ITestOutputHelper outHelper)
             : base(outHelper)
         {
-            Contract.Requires(outHelper != null);
-
             this.logger = this.LoggerFactory.CreateLogger<DefaultClientTests>();
         }
 
 #if !RELEASE
+        /// <summary>
+        /// Processes the asynchronous when valid email expect valid result.
+        /// </summary>
+        /// <param name="email">The email.</param>
         [Theory]
         [InlineData("abuse@hotmail.com")]
         [InlineData("abuse@yahoo.com")]
 #endif
-        public void ProcessAsync_WhenValidEmail_ExpectValidResult(string email)
+        public void ProcessAsync_WhenValidEmail_ExpectValidResult([NotNull] string email)
         {
             // Arrange
             var mockConfig = new Mock<IConfiguration<KeyAuthentication>>();
